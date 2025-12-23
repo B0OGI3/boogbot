@@ -80,14 +80,13 @@ Check your git diff after the run to review all changes.
 ---
 
 ## Project Structure
-.
+```bash
 ├─ main.py            # Entry point for the agent
 ├─ agent.py           # Core agent loop and reasoning
 ├─ tools.py           # Tool function definitions
 ├─ tests/             # Optional: tests for the agent itself
 └─ requirements.txt   # Python dependencies
-
-Adjust this section to match your actual layout.
+```
 
 ---
 
