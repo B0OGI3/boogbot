@@ -39,6 +39,7 @@ This project is a small “agentic” developer tool inspired by editors like Cu
 ```bash
 git clone https://github.com/B0OGI3/boogbot.git
 cd boogbot
+```
 
 2. Install Dependencies
 pip install -r requirements.txt
