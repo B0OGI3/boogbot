@@ -41,12 +41,12 @@ git clone https://github.com/B0OGI3/boogbot.git
 cd boogbot
 ```
 
-2. Install Dependencies
+### 2. Install Dependencies
 pip install -r requirements.txt
 
 (or your poetry/pipenv/uv command.)
 
-3. Environment Variables
+### 3. Environment Variables
 Create a .env file (or otherwise set env vars) with your LLM credentials:
 
 LLM_API_KEY=your_key_here
