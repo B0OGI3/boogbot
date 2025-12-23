@@ -54,6 +54,8 @@ LLM_MODEL_NAME=your_model_here
 
 Adjust names as needed to match your code.
 
+---
+
 ## Usage
 Typical usage:
 ```bash
@@ -69,12 +71,13 @@ python main.py \
 ```
 
 The agent will:
-
-Scan the code (or the specified file/directory)
-Ask the LLM to analyze and propose a plan
-Use tools to read/write files or run tests
-Iterate until done or a limit is reached
+  1. Scan the code (or the specified file/directory)
+  2. Ask the LLM to analyze and propose a plan
+  3. Use tools to read/write files or run tests
+  4. Iterate until done or a limit is reached
 Check your git diff after the run to review all changes.
+
+---
 
 ## Project Structure
 .
@@ -86,6 +89,8 @@ Check your git diff after the run to review all changes.
 
 Adjust this section to match your actual layout.
 
+---
+
 ## Safety Notes
 Commit your code before running the agent so you can easily revert.
 Avoid giving it write access to:
@@ -96,12 +101,19 @@ Review all changes before pushing to GitHub.
 Future Improvements
 Ideas for extending the project:
 
+---
+
 ## Better planning / reflection steps
 Support for more tools (e.g., search, static analysis)
 Multi-file refactors
 Richer CLI or TUI interface
+
+---
+
 ## License
 [MIT / Apache-2.0 / etc.]
+
+---
 
 ## Acknowledgements
 Built as part of the Boot.dev “LLM Prompt Engineering & Agents” course.
