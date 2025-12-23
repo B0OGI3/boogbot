@@ -54,17 +54,19 @@ LLM_MODEL_NAME=your_model_here
 
 Adjust names as needed to match your code.
 
-Usage
+## Usage
 Typical usage:
-
+```bash
 python main.py path/to/your/codebase
-
+```
 Or, if you have CLI flags:
 
+```bash
 python main.py \
   --root ./my_project \
   --entry main.py \
   --max-iterations 5
+```
 
 The agent will:
 
@@ -74,7 +76,7 @@ Use tools to read/write files or run tests
 Iterate until done or a limit is reached
 Check your git diff after the run to review all changes.
 
-Project Structure
+## Project Structure
 .
 ├─ main.py            # Entry point for the agent
 ├─ agent.py           # Core agent loop and reasoning
@@ -84,7 +86,7 @@ Project Structure
 
 Adjust this section to match your actual layout.
 
-Safety Notes
+## Safety Notes
 Commit your code before running the agent so you can easily revert.
 Avoid giving it write access to:
 Home directory
@@ -94,15 +96,12 @@ Review all changes before pushing to GitHub.
 Future Improvements
 Ideas for extending the project:
 
-Better planning / reflection steps
+## Better planning / reflection steps
 Support for more tools (e.g., search, static analysis)
 Multi-file refactors
 Richer CLI or TUI interface
-License
+## License
 [MIT / Apache-2.0 / etc.]
 
-Acknowledgements
+## Acknowledgements
 Built as part of the Boot.dev “LLM Prompt Engineering & Agents” course.
-
-
-If you paste your repo structure and how you actually run the agent, I can tailor this README so it fits your project perfectly.
