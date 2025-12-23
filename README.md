@@ -1,4 +1,4 @@
-# [Project Name] – LLM Code Debugging Agent
+# BOOGBOT – LLM Code Debugging Agent
 
 This project is a small “agentic” developer tool inspired by editors like Cursor, Zed, and Claude Code. It uses a large language model (LLM) plus a set of tool functions to:
 
