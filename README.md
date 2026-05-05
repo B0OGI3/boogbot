@@ -1,118 +1,92 @@
-# BOOGBOT – LLM Code Debugging Agent
+# boogbot
 
-This project is a small “agentic” developer tool inspired by editors like Cursor, Zed, and Claude Code. It uses a large language model (LLM) plus a set of tool functions to:
+A CLI coding agent powered by Google Gemini 2.5 Flash. Give it a natural language prompt about a codebase and it plans, reads, writes, and runs files autonomously until the task is done — similar in spirit to tools like Cursor or Claude Code, but built from scratch.
 
-- Analyze and debug code
-- Propose fixes and refactors
-- Optionally run tests or commands to verify changes
+## How It Works
 
-> ⚠️ This is a **toy** agent for learning. Don’t point it at sensitive code or give it broad system access.
+The agent runs an iterative loop (up to 20 steps):
 
----
+1. Sends your prompt + conversation history to Gemini
+2. Gemini decides whether to call a tool or respond with a final answer
+3. Tools execute and their results feed back into the next iteration
+4. Loop ends when Gemini produces a text response with no further tool calls
 
-## Features
+### Available Tools
 
-- Summarizes and analyzes code files
-- Proposes bug fixes and improvements
-- Can call tools such as:
-  - `read_file` / `write_file` (or your equivalents)
-  - `run_tests` or `run_command`
-- Iterative “plan + act + reflect” loop to refine changes
+| Tool | Description |
+|---|---|
+| `get_files_info` | List files and sizes in a directory |
+| `get_file_content` | Read a file's contents (up to 10,000 chars) |
+| `run_python_file` | Execute a Python file and capture output |
+| `write_file` | Write or overwrite a file |
 
----
+All file operations are sandboxed to the working directory — no access outside it.
 
 ## Tech Stack
 
-- Language: Python [3.13]
-- LLM Provider: [Gemini / OpenAI / Anthropic / etc.]
-- Dependencies:
-  - `python-dotenv` (optional, for environment variables)
-  - `[your LLM SDK]`
-  - `[any test frameworks: pytest, etc.]`
-
----
+- Python 3.13
+- [Google Gemini API](https://ai.google.dev/) (`gemini-2.5-flash`)
+- `google-genai` SDK
+- `python-dotenv`
 
 ## Getting Started
 
-### 1. Clone the Repository
+### 1. Clone and install
 
 ```bash
 git clone https://github.com/B0OGI3/boogbot.git
 cd boogbot
-```
-
-### 2. Install Dependencies
 pip install -r requirements.txt
-
-(or your poetry/pipenv/uv command.)
-
-### 3. Environment Variables
-Create a .env file (or otherwise set env vars) with your LLM credentials:
-
-LLM_API_KEY=your_key_here
-LLM_MODEL_NAME=your_model_here
-
-Adjust names as needed to match your code.
-
----
-
-## Usage
-Typical usage:
-```bash
-python main.py path/to/your/codebase
-```
-Or, if you have CLI flags:
-
-```bash
-python main.py \
-  --root ./my_project \
-  --entry main.py \
-  --max-iterations 5
 ```
 
-The agent will:
-  1. Scan the code (or the specified file/directory)
-  2. Ask the LLM to analyze and propose a plan
-  3. Use tools to read/write files or run tests
-  4. Iterate until done or a limit is reached
-Check your git diff after the run to review all changes.
+### 2. Set up your API key
 
----
+Create a `.env` file in the project root:
+
+```
+GEMINI_API_KEY=your_key_here
+```
+
+Get a free key at [aistudio.google.com](https://aistudio.google.com).
+
+### 3. Run
+
+```bash
+python main.py "your prompt here"
+```
+
+Add `--verbose` to see token counts and tool call details:
+
+```bash
+python main.py "fix any bugs in main.py" --verbose
+```
+
+## Example
+
+```bash
+python main.py "look at the calculator project and run its tests, then fix any failing ones"
+```
+
+The agent will list files, read the source, run the tests, identify failures, and write fixes — all autonomously.
 
 ## Project Structure
-```bash
-├─ main.py            # Entry point for the agent
-├─ agent.py           # Core agent loop and reasoning
-├─ tools.py           # Tool function definitions
-├─ tests/             # Optional: tests for the agent itself
-└─ requirements.txt   # Python dependencies
+
+```
+boogbot/
+├── main.py                    # Entry point — argument parsing and agent loop
+├── prompts.py                 # System prompt
+├── config.py                  # Constants (file read limit, etc.)
+├── functions/
+│   ├── call_function.py       # Routes Gemini tool calls to Python functions
+│   ├── get_file_content.py    # Safe file reader
+│   ├── get_files_info.py      # Directory listing
+│   ├── run_python_file.py     # Sandboxed Python execution
+│   └── write_file.py          # Safe file writer
+└── calculator/                # Sample codebase for testing the agent against
 ```
 
----
+## Safety
 
-## Safety Notes
-Commit your code before running the agent so you can easily revert.
-Avoid giving it write access to:
-Home directory
-Secrets/configs
-Production systems
-Review all changes before pushing to GitHub.
-Future Improvements
-Ideas for extending the project:
-
----
-
-## Better planning / reflection steps
-Support for more tools (e.g., search, static analysis)
-Multi-file refactors
-Richer CLI or TUI interface
-
----
-
-## License
-[MIT / Apache-2.0 / etc.]
-
----
-
-## Acknowledgements
-Built as part of the Boot.dev “LLM Prompt Engineering & Agents” course.
+- All file operations are sandboxed to the working directory
+- Always commit your code before running the agent so you can `git diff` or revert
+- Do not point it at directories containing secrets or credentials
